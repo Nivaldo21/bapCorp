@@ -101,7 +101,7 @@
                 emptyTag: false,
                 emptyForm: false,
                 newTag: '',
-                form: {title: '', comments: '', description: '', tags: [], date: '', check: false, id: null}
+                form: {title: '', comments: '', description: '', tags: [], date: new Date().toISOString().slice(0, 10), check: false, id: null}
             }
         },
         emits: ['addTask','editTask'],
@@ -112,7 +112,7 @@
                 this.form.comments = this.dataTask.comments ? this.dataTask.comments : '';
                 this.form.description =  this.dataTask.description ? this.dataTask.description : '';
                 this.form.tags = this.dataTask.tags ? this.dataTask.tags.split(',') : [];
-                this.form.date = this.dataTask.due_date ? this.dataTask.due_date  : '';
+                this.form.date = this.dataTask.due_date ? this.dataTask.due_date  : new Date().toISOString().slice(0, 10);
                 this.form.check = this.dataTask.is_completed == 1 ? true  : false;
             },
             addTag(){

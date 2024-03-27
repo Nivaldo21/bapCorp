@@ -38,8 +38,6 @@
                     formData.append('description', task.description);
                     formData.append('tags', cadena);
 
-                    console.log(formData.values);
-                    
                     const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${task.id}`, {
                         headers: { 'Authorization': `Bearer ${this.config}`, 'Content-Type': 'application/x-www-form-urlencoded' },
                         method: 'PUT',
