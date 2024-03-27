@@ -19,6 +19,7 @@
                 size="small"
                 color="blue-lighten-1"
                 append-icon="mdi-page-next-outline"
+                @click="toggleCustomSelection"
             > Detalle
             </v-btn>
           </template>
@@ -43,7 +44,7 @@
           </template>
       </v-list-item>
       <v-divider></v-divider>
-      <!-- <DialogDetailTask :idTask="id"/> -->
+      <DialogDetailTask :idTask="id" v-model="showCustomSelector" />
 </template>
 
 <script lang="ts">
@@ -77,6 +78,7 @@
         data(props){
           return {
             checkbox: props.isCompleted == 1 ? true : false,
+            showCustomSelector: false,
             _token: '',
             _tokenParam: '',
           }
@@ -88,6 +90,9 @@
         },
         emits: ['deleteEmit','checkedEmit'],
         methods: {
+          toggleCustomSelection() {
+              this.showCustomSelector= !this.showCustomSelector;
+          },
           async deleteTask(){
             try {
               const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${this.id}?token=${this._tokenParam}`, {
