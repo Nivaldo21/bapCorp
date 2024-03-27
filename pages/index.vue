@@ -62,26 +62,33 @@
     </v-snackbar>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
     // Import necessary utilities
     import { ref } from 'vue';
+
+    interface ITask{
+      id: number,
+      title: string,
+      is_completed: number,
+      due_date?: string
+    };
   
     // Define reactive variables for snackbar, text, tasks, pending state, and error message
-    let snackbar = ref(false);
-    let text = ref('');
-    let tasks = ref([]);
-    let pending = ref(true);
-    let error = ref('');
+    let snackbar:Ref<Boolean> = ref(false);
+    let text:Ref<string> = ref('');
+    let tasks:Ref<ITask[]>  = ref([]);
+    let pending:Ref<Boolean> = ref(true);
+    let error:Ref<string>  = ref('');
   
     // Fetch runtime configuration
-    const runtimeConfig = useRuntimeConfig();
-    const _token = runtimeConfig.public.token;
-    const _tokenParam = runtimeConfig.public.tokenParam;
+    const runtimeConfig:any = useRuntimeConfig();
+    const _token:string = runtimeConfig.public.token;
+    const _tokenParam:string = runtimeConfig.public.tokenParam;
   
     // Function to fetch task data
-    const fetchData = async () => {
+    const fetchData = async (): void => {
       try {
-        const response = await $fetch('https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks', {
+        const response:ITask[] = await $fetch('https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${_token}`
@@ -101,14 +108,14 @@
     fetchData();
   
     // Function to handle success message for task deletion
-    const deleteSuccess = async (msg) => {
+    const deleteSuccess = async (msg:string): void => {
       text.value = msg;
       snackbar.value = true;
       await fetchData();
     };
   
     // Function to handle success message for task checkbox state change
-    const checkedSuccess = (msg) => {
+    const checkedSuccess = (msg:string): void => {
       text.value = msg;
       snackbar.value = true;
     };
