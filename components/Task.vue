@@ -133,7 +133,7 @@
               formData.append('token', this._tokenParam);
               formData.append('is_completed', stateTask ? 1 : 0);
               formData.append('title', this.title);
-              formData.append('date', this.date);
+              formData.append('due_date', this.date);
               // Send put request to update task
               const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${this.id}`, {
                 headers: { 'Authorization': `Bearer ${this._token}`, 'Content-Type': 'application/x-www-form-urlencoded' },
