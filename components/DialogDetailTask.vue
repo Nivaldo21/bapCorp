@@ -57,7 +57,6 @@
                 headers: { 'Authorization': `Bearer ${_token}` },
             });
             task.value =  response.data._rawValue[0];
-            console.log(task.value);
         } catch (err) {
             error.value = err;
         } finally {

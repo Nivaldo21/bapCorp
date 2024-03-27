@@ -26,7 +26,7 @@
                 class="mb-5"
                 v-model="form.check"
                 color="success"
-                label="Iniciar la tarea activa"
+                :label="flagNewTaks ? 'Iniciar la tarea activa' : 'Estado de la Tarea'"
                 hide-details
             ></v-checkbox>
         </v-col>
@@ -66,7 +66,7 @@
         </v-col>
         <v-col cols="12" md="6">
             <h5>Tags Añadidos</h5>
-            <v-chip closable v-for="(tag, index) in form.tags" :key="index" color="blue" variant="tonal" @click:close="eliminarTag(index)">  <v-icon icon="mdi-label" start></v-icon> {{tag}} </v-chip>
+            <v-chip closable v-for="(tag, index) in form.tags" :key="tag" color="blue" variant="tonal" @click:close="eliminarTag(tag)">  <v-icon icon="mdi-label" start></v-icon> {{tag}} </v-chip>
         </v-col>
       </v-row>
       <v-divider></v-divider>
@@ -123,8 +123,9 @@
                 this.form.tags.push(this.newTag);
                 this.newTag = '';
             },
-            eliminarTag(index){
-                this.form.tags.splice(index, 0);
+            eliminarTag(tag){
+                let resultado = this.form.tags.filter(val => val != tag);
+                this.form.tags = resultado;
             },
             setTask(){
                 if (!this.form.title) {
