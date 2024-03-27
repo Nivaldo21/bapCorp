@@ -55,22 +55,39 @@
 <script setup>
     let snackbar = ref(false);
     let text = ref('');
-
+    let tasks = ref([]);
+    let pending = ref(true);
+    let error = ref('');
     const _token = "e864a0c9eda63181d7d65bc73e61e3dc6b74ef9b82f7049f1fc7d9fc8f29706025bd271d1ee1822b15d654a84e1a0997b973a46f923cc9977b3fcbb064179ecd";
 
-    const { data: tasks, pending, error } = await useLazyFetch('https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks',{
-        params: { token: 'nivaldo21' },
-        headers: { 'Authorization': `Bearer ${_token}`}
-    });
+    const fetchData = async () => {
+        try {
+            const response = await $fetch('https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${_token}`
+                },
+                params: { 'token': 'nivaldo21' }
+            });
+            tasks.value = response;
+            pending.value = false;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            pending.value = false;
+            error.value = 'Error fetching data';
+        }
+    };
 
+    fetchData();
+    
+    const deleteSuccess = async (msg) => {
+        text.value = msg;
+        snackbar.value = true;
+        await fetchData();
+    };
     const checkedSuccess = (msg)=>{
         text.value = msg;
         snackbar.value = true;
-    }
-
-    const deleteSuccess = (msg) =>{
-        text.value = msg;
-        snackbar.value = true;
     };
-
+    
 </script>
