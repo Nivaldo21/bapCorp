@@ -54,12 +54,12 @@
     });
   
     // Define component emits
-    const emit = defineEmits(['update:modelValue']);
+    const emit = defineEmits(['update:modelValue','detailTaskForPut']);
   
     // Function to close the dialog
     function close() {
       emit('update:modelValue', false);
-    }
+    };
   
     // Fetch runtime configuration
     const runtimeConfig = useRuntimeConfig();
@@ -82,6 +82,7 @@
         });
         // Update task data
         task.value = response.data._rawValue[0];
+        emit('detailTaskForPut', task);
       } catch (err) {
         // Handle errors
         error.value = err;

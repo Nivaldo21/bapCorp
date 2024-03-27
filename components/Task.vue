@@ -54,7 +54,7 @@
       <!-- Divider -->
       <v-divider></v-divider>
       <!-- Custom dialog for task details -->
-      <DialogDetailTask :idTask="id" v-model="showCustomSelector" />
+      <DialogDetailTask @detailTaskForPut="dataForPut" :idTask="id" v-model="showCustomSelector" />
 </template>
 
 <script lang="ts">
@@ -95,6 +95,8 @@
             // API token parameters
             _token: '',
             _tokenParam: '',
+            //variable for task detail data
+            detailTask: '',
           }
         },
         watch:{
@@ -106,6 +108,9 @@
         },
         emits: ['deleteEmit','checkedEmit'],
         methods: {
+          dataForPut(taskData){
+            this.detailTask = taskData._rawValue;
+          },
           // Toggle visibility of custom dialog
           toggleCustomSelection() {
               this.showCustomSelector= !this.showCustomSelector;
@@ -134,6 +139,9 @@
               formData.append('is_completed', stateTask ? 1 : 0);
               formData.append('title', this.title);
               formData.append('due_date', this.date);
+              formData.append('description', this.detailTask.description);
+              formData.append('tags', this.detailTask.tags);
+              formData.append('comments', this.detailTask.comments);
               // Send put request to update task
               const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${this.id}`, {
                 headers: { 'Authorization': `Bearer ${this._token}`, 'Content-Type': 'application/x-www-form-urlencoded' },
