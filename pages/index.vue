@@ -65,7 +65,6 @@
   <script setup>
     // Import necessary utilities
     import { ref } from 'vue';
-    import useRuntimeConfig from '@nuxt/use-runtime-config';
   
     // Define reactive variables for snackbar, text, tasks, pending state, and error message
     let snackbar = ref(false);
