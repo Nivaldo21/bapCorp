@@ -58,7 +58,9 @@
     let tasks = ref([]);
     let pending = ref(true);
     let error = ref('');
-    const _token = "e864a0c9eda63181d7d65bc73e61e3dc6b74ef9b82f7049f1fc7d9fc8f29706025bd271d1ee1822b15d654a84e1a0997b973a46f923cc9977b3fcbb064179ecd";
+    const  runtimeConfig = useRuntimeConfig();
+    const _token = runtimeConfig.public.token;
+    const _tokenParam = runtimeConfig.public.tokenParam;
 
     const fetchData = async () => {
         try {
@@ -67,7 +69,7 @@
                 headers: {
                     'Authorization': `Bearer ${_token}`
                 },
-                params: { 'token': 'nivaldo21' }
+                params: { 'token': _tokenParam }
             });
             tasks.value = response;
             pending.value = false;

@@ -69,10 +69,16 @@
               required: true,
             }
         },
+        created(){
+            let config = useRuntimeConfig();
+            this._token = config.public.token;
+            this._tokenParam = config.public.tokenParam;
+        },
         data(props){
           return {
             checkbox: props.isCompleted == 1 ? true : false,
-            config: "e864a0c9eda63181d7d65bc73e61e3dc6b74ef9b82f7049f1fc7d9fc8f29706025bd271d1ee1822b15d654a84e1a0997b973a46f923cc9977b3fcbb064179ecd"
+            _token: '',
+            _tokenParam: '',
           }
         },
         watch:{
@@ -84,8 +90,8 @@
         methods: {
           async deleteTask(){
             try {
-              const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${this.id}?token=nivaldo21`, {
-                headers: { 'Authorization': `Bearer ${this.config}` },
+              const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${this.id}?token=${this._tokenParam}`, {
+                headers: { 'Authorization': `Bearer ${this._token}` },
                 method: 'DELETE',
               });
               const res = await response.json();
@@ -97,13 +103,13 @@
           async checkTask(stateTask){
             try {
               const formData = new URLSearchParams();
-              formData.append('token', 'nivaldo21');
+              formData.append('token', this._tokenParam);
               formData.append('is_completed', stateTask ? 1 : 0);
               formData.append('title', this.title);
               formData.append('date', this.date);
               
               const response = await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks/${this.id}`, {
-                headers: { 'Authorization': `Bearer ${this.config}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: { 'Authorization': `Bearer ${this._token}`, 'Content-Type': 'application/x-www-form-urlencoded' },
                 method: 'PUT',
                 body: formData,
               });

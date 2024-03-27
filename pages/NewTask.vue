@@ -9,9 +9,15 @@
     import { defineComponent } from 'vue';
     export default defineComponent({
         name: 'NewTask',
+        created(){
+            let config = useRuntimeConfig();
+            this._token = config.public.token;
+            this._tokenParam = config.public.tokenParam;
+        },
         data(){
             return{
-                config: 'e864a0c9eda63181d7d65bc73e61e3dc6b74ef9b82f7049f1fc7d9fc8f29706025bd271d1ee1822b15d654a84e1a0997b973a46f923cc9977b3fcbb064179ecd'
+                _token: '',
+                _tokenParam: '',
             }
         },
         methods: {
@@ -19,7 +25,7 @@
                 try {
                     const cadena = newTask.tags.join(',');
                     const formData = new URLSearchParams();
-                    formData.append('token', 'nivaldo21');
+                    formData.append('token', this._tokenParam);
                     formData.append('is_completed', newTask.check ? 1 : 0);
                     formData.append('title', newTask.title);
                     formData.append('comments', newTask.comments);
@@ -28,7 +34,7 @@
                     formData.append('tags', cadena);
                     
                     const response =  await fetch(`https://ecsdevapi.nextline.mx/vdev/tasks-challenge/tasks`, {
-                        headers: { 'Authorization': `Bearer ${this.config}`, 
+                        headers: { 'Authorization': `Bearer ${this._token}`, 
                                 'Content-Type': 'application/x-www-form-urlencoded' 
                             },
                         method: 'POST',
