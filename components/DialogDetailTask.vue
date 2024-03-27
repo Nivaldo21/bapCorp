@@ -45,8 +45,7 @@
   
   <script setup>
     // Import necessary utilities
-    import { ref, defineProps, defineEmits } from 'vue';
-    import useFetch from '@use-hooks/vue-fetch';
+    import { ref } from 'vue';
   
     // Define component props
     const props = defineProps({
